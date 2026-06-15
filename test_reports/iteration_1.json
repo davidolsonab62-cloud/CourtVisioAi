@@ -1,0 +1,41 @@
+{
+  "summary": "Tested CourtVision AI (FastAPI + React + MongoDB) end-to-end. Backend: 29/29 pytest cases pass covering auth (admin/pro/free login, register, /me, lockout-friendly), core (leagues, teams, games/today, predictions with confidence>=75 threshold, anon-locked confidence>=88, deterministic prediction returns, performance summary/by-league/timeline), admin (dashboard, users, role updates, demo-mode api-keys, 403 for non-admin), and payments (packages, Stripe checkout session creation with pending payment_transaction record, 401 for unauth). Frontend: all 11 review flows verified — Landing CTAs (signup/dashboard/premium) present, public Dashboard renders with upgrade CTA, Match Center league chips work and filter, Match Detail renders predicted final (87.4 vs 78.7), confidence badge (80), Model Breakdown (ELO/Rating/Form/H2H), Adjustments (rest/injury/travel deltas), team strengths. Performance page shows 65.5% accuracy / +25% ROI, cumulative profit line chart, accuracy-by-league bar chart, and daily breakdown table. Pricing has all 4 subscribe buttons; anon click correctly redirects to /login. Admin login works, /admin shows users table, revenue, demo-mode banner, 4 grant-premium buttons. Non-admin user redirected from /admin to /dashboard. Profile has team favorite toggles.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Match Center (mobile/narrow viewport)", "issues": ["Recharts container reports width(-1)/height(-1) warnings when navigating before container has layout (cosmetic, charts render correctly on the actual Performance page at 1920px)"]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_courtvision.py",
+    "/app/test_reports/pytest/results.xml"
+  ],
+  "action_items": [
+    "(optional) AuthContext bootstraps by calling /api/auth/me which logs a 401 in the console for every anon page load — functional, but consider suppressing via try/catch silent or a /me endpoint that returns 200/null for anon to reduce console noise.",
+    "(optional) Provide additional data-testid hooks on Performance page summary cards (accuracy/roi/wins) and Dashboard 'Live Now' section so future tests can assert directly without text matching."
+  ],
+  "critical_code_review_comments": [
+    "auth.py + routes_auth.py — bcrypt hashes generated correctly ($2b$), httpOnly + secure + samesite=none cookies set on login/register/refresh, brute-force lockout implemented (5 attempts / 15-min). Good.",
+    "seed_runtime.seed_users() is idempotent and updates password_hash + role if admin password is rotated. Good.",
+    "routes_core.py — predictions are deterministic (driven by hash(game_id) in seed + pure prediction_engine.predict). Verified by /api/predictions/{id} twice returning identical confidence and predicted_winner_id.",
+    "routes_payments.py — never trusts frontend prices, fixed PACKAGES dict, creates payment_transactions doc with payment_status='pending' and metadata. Stripe webhook + status both idempotent on payment_status=paid.",
+    "Mongo _id leakage — server consistently uses projection {_id: 0} on reads and converts to public dicts in auth/admin paths. No raw ObjectId in responses (verified for /api/teams and /api/admin/users).",
+    "CORS uses explicit FRONTEND_URL (not '*') when allow_credentials=True. Correct.",
+    "Minor: ACCESS_TTL_MIN constant is named '_MIN' but is actually 1440 minutes (24h). Naming is fine but worth a comment."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_courtvision.py (new)"
+  ],
+  "success_rate": {"backend": "100% (29/29)", "frontend": "100% (11/11 review items verified)"},
+  "test_credentials": "Admin: admin@courtvisionai.com / ChangeOnFirstLogin123 | Premium: pro@courtvisionai.com / Pro123! | Free: user@courtvisionai.com / User123!  (seeded at startup, idempotent). Backed up in this report since /app/memory/test_credentials.md was empty.",
+  "seed_data_creation": "Seed runs on FastAPI lifespan startup — 16 leagues, ~85 teams, ~120 games (mix of live/scheduled/finished over 21-day history), 1 prediction per game, 3 default user accounts (admin/premium/free). One TEST_ prefixed registered user created during testing remains in DB (harmless).",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "All review_request items pass. Backend pytest file at /app/backend/tests/test_courtvision.py — run via: `python -m pytest backend/tests/test_courtvision.py -v`. Stripe checkout endpoint creates a real session against sk_test_emergent and returns a Stripe-hosted URL; we DO NOT complete payment, only verify URL + pending txn (do not click through Stripe checkout in any future automation). Predictions are deterministic by game_id — do not introduce randomness. Demo-mode banner on /admin is intentional because API_SPORTS_KEY is empty.",
+  "rca of the issue": "N/A — no functional bugs found. Single initial test failure (assertion comparing original-case email vs lowercased response) was a test bug (backend correctly lowercases email per /api/auth/register contract); test fixed."
+}

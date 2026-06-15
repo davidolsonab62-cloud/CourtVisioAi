@@ -1,0 +1,120 @@
+{
+  "theme_and_archetype": {
+    "domain": "Sportsbook & Basketball Analytics Platform",
+    "theme": "DARK",
+    "archetype": "Archetype 2 (Performance Pro) merged with Archetype 5 (Luxury Dark)",
+    "vibe": "Premium, edgy, courtside energy, professional analytics (Action Network / DraftKings caliber). High visual tension, strictly no purple/violet/teal."
+  },
+  "typography": {
+    "rules": "Distinctive, professional, readable hierarchy for data-heavy interfaces. NO Inter, NO Roboto, NO Space Grotesk.",
+    "fonts": {
+      "headings": "Clash Display or Cabinet Grotesk (Premium, edgy, slightly wide)",
+      "body": "Manrope or Chivo (Crisp, highly readable for numbers and dense data)",
+      "data_numbers": "Teko or Anton (Used sparingly for massive scorelines, odds, or win percentages)"
+    },
+    "hierarchy": {
+      "h1": "text-4xl sm:text-5xl tracking-tighter font-black uppercase text-white",
+      "h2": "text-2xl sm:text-3xl tracking-tight font-bold text-white",
+      "h3": "text-xl font-semibold text-white",
+      "body": "text-base leading-relaxed text-zinc-300",
+      "labels": "text-xs tracking-[0.2em] uppercase font-bold text-zinc-400",
+      "odds_numbers": "text-xl font-black tabular-nums tracking-tight"
+    }
+  },
+  "colors": {
+    "backgrounds": {
+      "app_bg": "#0A0A0B",
+      "surface_card": "#121214",
+      "surface_hover": "#1A1A1D"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#A1A1AA",
+      "muted": "#71717A",
+      "inverse": "#0A0A0B"
+    },
+    "brand_and_accents": {
+      "primary": "#FF3B30",
+      "primary_hover": "#DC2626",
+      "win_green": "#10B981",
+      "loss_red": "#EF4444",
+      "value_gold": "#F59E0B",
+      "border_default": "rgba(255, 255, 255, 0.08)"
+    },
+    "confidence_badges": {
+      "90_95": "bg-gradient-to-r from-amber-500 to-yellow-400 text-black",
+      "85_89": "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
+      "80_84": "bg-blue-500/10 text-blue-400 border border-blue-500/20",
+      "75_79": "bg-zinc-500/10 text-zinc-400 border border-zinc-500/20"
+    }
+  },
+  "spacing_and_layout": {
+    "grid_system": "Mode B (Control Room Grid). Dense, compact data displays. 1px borders to separate dense stats. Pure HTML/Tailwind for the landing page to break grids with aggressive asymmetry.",
+    "containers": "Use glassmorphism selectively for sticky headers and modal overlays (backdrop-blur-xl bg-[#0A0A0B]/80 border-b border-white/10).",
+    "cards": "Sharp edges or max 8px border-radius (`rounded-lg`). Flat solid surface, 1px inner border. Heavy use of tabular data alignment.",
+    "spacing_scale": "Marketing: Generous spacing (py-24, gap-12). Dashboard: Compact and exact (p-4, gap-4) for scanning data."
+  },
+  "components": {
+    "strategy": "Hybrid Approach: Radix/Shadcn UI for complex interactives (Dropdowns, Tabs, Tables). Raw Tailwind HTML for marketing hero and prediction detail cards.",
+    "buttons": "Primary CTA: bg-[#FF3B30] text-white font-bold uppercase tracking-widest hover:bg-[#DC2626]. Must have explicitly defined text colors on hover.",
+    "tables": "Shadcn Table heavily customized. Tabular numbers. Highlight winning odds in `text-emerald-400`.",
+    "charts": "Recharts. Use dark theme tooltips, transparent grid lines (stroke-white/5), and brand colors for lines/bars (#FF3B30 for ROI, #10B981 for Accuracy).",
+    "live_scoreboard": "Horizontal scrolling marquee or bento grid. Must feature team logos (use standard lucide icons if no images provided), live pulsing dot, and period/quarter.",
+    "win_bars": "Custom Tailwind progress bars (`h-2 rounded-full`) using green/red gradients for Over/Under or Spread probabilities."
+  },
+  "motion": {
+    "hover_states": "-translate-y-0.5, shadow-lg shadow-black/50, border-white/20 transition-all duration-200.",
+    "page_transitions": "framer-motion for smooth fade-ins. Staggered list animations for today's predictions.",
+    "live_indicators": "Pulsing red dot (animate-pulse) for Live Games."
+  },
+  "accessibility": {
+    "contrast": "Strict APCA/WCAG AA adherence. NO dark-on-dark text. Must test pure white text on `#FF3B30` and `#10B981` buttons.",
+    "focus": "focus:ring-2 focus:ring-[#FF3B30] focus:ring-offset-2 focus:ring-offset-[#0A0A0B]",
+    "testing_attributes": "All interactive elements MUST include `data-testid` (e.g., `data-testid=\"buy-premium-button\"`, `data-testid=\"prediction-card-lakers\"`)."
+  },
+  "media_and_images": {
+    "hero_backgrounds": [
+      {
+        "url": "https://images.pexels.com/photos/15828942/pexels-photo-15828942.jpeg",
+        "description": "Dramatic spotlight on a basketball hoop in a dark gym. Use as the main marketing hero background with bg-black/60 overlay.",
+        "category": "hero_background"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?crop=entropy&cs=srgb&fm=jpg",
+        "description": "Basketball dunk action. Use in the 'Premium Picks' marketing section.",
+        "category": "feature_image"
+      }
+    ],
+    "user_avatars": [
+      {
+        "url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=srgb&fm=jpg",
+        "description": "User headshot for testimonials or profile page.",
+        "category": "avatar"
+      },
+      {
+        "url": "https://images.pexels.com/photos/32721706/pexels-photo-32721706.jpeg",
+        "description": "Edgy black and white male portrait for premium user showcase.",
+        "category": "avatar"
+      }
+    ],
+    "sponsor_logos": [
+      {
+        "url": "https://images.pexels.com/photos/33714875/pexels-photo-33714875.jpeg",
+        "description": "Abstract badge image to use as a placeholder for data partners/sponsors (apply grayscale and brightness to blend into background).",
+        "category": "sponsor_logo"
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "You are building 'CourtVision AI', a hybrid fullstack sportsbook application.",
+    "Follow the Mode B Control Room Grid for the main dashboard. It must feel like a dense, professional analytics tool.",
+    "Implement Recharts for Performance Tracking (ROI, Accuracy by League).",
+    "Include specific prediction features: Win % progress bars, over/under, and 4 distinct Confidence Badges (90-95, 85-89, 80-84, 75-79).",
+    "Include a 'Best Value Bet' and 'Safest Pick' UI treatment.",
+    "Add the legal disclaimer 'Predictions are statistical estimates and not guaranteed outcomes' in the global footer.",
+    "Strictly use the colors defined in this JSON. Do NOT invent new purple, teal, or generic SaaS blue colors.",
+    "Use Manrope or Chivo for all dashboard numbers/tables to ensure clear tabular data alignment.",
+    "In all React files (.jsx or .js), ensure comprehensive coverage of `data-testid` properties.",
+    "Use the provided image URLs exclusively for media sections. Do not use generic placeholder image URLs."
+  ]
+}
