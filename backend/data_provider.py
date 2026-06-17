@@ -1,28 +1,20 @@
-@'
 """Basketball data provider abstraction."""
 from __future__ import annotations
 import os
 import logging
 from typing import Optional
 from datetime import datetime, timedelta
-
 import httpx
 
 logger = logging.getLogger(__name__)
 
-
-def is_live_mode() -> bool:
+def is_live_mode():
     return bool(os.environ.get("API_SPORTS_KEY"))
 
-
-async def _api_get(path: str, params: dict) -> list:
+async def _api_get(path, params):
     host = os.environ.get("API_SPORTS_HOST", "v1.basketball.api-sports.io")
     api_key = os.environ["API_SPORTS_KEY"]
-    headers = {
-        "x-apisports-key": api_key,
-        "x-rapidapi-key": api_key,
-        "x-rapidapi-host": host,
-    }
+    headers = {"x-apisports-key": api_key, "x-rapidapi-key": api_key, "x-rapidapi-host": host}
     url = f"https://{host}/{path}"
     try:
         async with httpx.AsyncClient(timeout=15) as client:
@@ -33,8 +25,7 @@ async def _api_get(path: str, params: dict) -> list:
         logger.warning(f"api-sports fetch failed for {path}: {e}")
         return []
 
-
-async def fetch_live_games(league_external_id: Optional[int] = None) -> list:
+async def fetch_live_games(league_external_id=None):
     if not is_live_mode():
         return []
     all_games = []
@@ -44,13 +35,10 @@ async def fetch_live_games(league_external_id: Optional[int] = None) -> list:
         params = {"date": date, "season": "2024-2025"}
         if league_external_id:
             params["league"] = str(league_external_id)
-        games = await _api_get("games", params)
-        all_games.extend(games)
+        all_games.extend(await _api_get("games", params))
     live_games = await _api_get("games", {"live": "all"})
     existing_ids = {g.get("id") for g in all_games}
     for g in live_games:
         if g.get("id") not in existing_ids:
             all_games.append(g)
-    logger.info(f"Fetched {len(all_games)} total games from api-sports.io")
     return all_games
-'@ | Set-Content "backend\data_provider.py" -Encoding UTF8
