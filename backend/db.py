@@ -9,8 +9,12 @@ _db = None
 def init_db():
     global _client, _db
     if _client is None:
-        _client = AsyncIOMotorClient(os.environ["MONGO_URL"])
-        _db = _client[os.environ["DB_NAME"]]
+        mongo_url = os.environ["MONGO_URL"]
+        kwargs = {}
+        if ".mongodb.net" in mongo_url or mongo_url.startswith("mongodb+srv://"):
+            kwargs["tlsInsecure"] = True
+        _client = AsyncIOMotorClient(mongo_url, **kwargs)
+        _db = _client[os.environ.get("DB_NAME", "courtvision")]
     return _db
 
 
