@@ -24,8 +24,11 @@ async def fetch_live_games(league_external_id: Optional[int] = None) -> list:
     if not is_live_mode():
         return []
     host = os.environ.get("API_SPORTS_HOST", "v1.basketball.api-sports.io")
+    api_key = os.environ["API_SPORTS_KEY"]
+    # Support both direct api-sports.io key and RapidAPI key
     headers = {
-        "x-rapidapi-key": os.environ["API_SPORTS_KEY"],
+        "x-apisports-key": api_key,
+        "x-rapidapi-key": api_key,
         "x-rapidapi-host": host,
     }
     params = {}
