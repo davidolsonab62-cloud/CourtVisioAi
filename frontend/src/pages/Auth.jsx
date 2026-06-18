@@ -97,7 +97,13 @@ export function Register() {
           Have an account?{" "}
           <Link to="/login" className="text-white underline">Log in</Link>
         </p>
+        <div className="mb-1">Demo accounts:</div>
+          <div><code className="font-mono">admin@courtvisionai.com / ChangeOnFirstLogin123</code></div>
+          <div><code className="font-mono">pro@courtvisionai.com / Pro123!</code></div>
+          <div><code className="font-mono">user@courtvisionai.com / User123!</code></div>
+        </div>
       </div>
+      
     </Layout>
   );
 }
