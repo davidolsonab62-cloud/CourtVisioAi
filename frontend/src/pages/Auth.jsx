@@ -48,11 +48,6 @@ export function Login() {
           <Link to="/register" data-testid="login-go-register" className="text-white underline">Create an account</Link>
         </p>
         <div className="mt-6 border-t border-white/10 pt-4 text-xs text-zinc-500">
-          <div className="mb-1">Demo accounts:</div>
-          <div><code className="font-mono">admin@courtvisionai.com / ChangeOnFirstLogin123</code></div>
-          <div><code className="font-mono">pro@courtvisionai.com / Pro123!</code></div>
-          <div><code className="font-mono">user@courtvisionai.com / User123!</code></div>
-        </div>
       </div>
     </Layout>
   );
